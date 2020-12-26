@@ -17,7 +17,7 @@ export function plantToUIPlant(
   plantKinds: PlantKind[],
   now: Date,
 ): UIPlant {
-  const plantKind = lookupPlantKind(plantKinds, plantKindId);
+  const plantKind = findPlantKind(plantKinds, plantKindId);
   const [state, nextWatering] = calcPlantStateAndNextWatering(
     now,
     lastWatered,
@@ -64,7 +64,7 @@ function waterFrequencyToMilliseconds({number, unit}: WaterFrequency): number {
   const _exhaustivenessCheck: never = unit;
 }
 
-function lookupPlantKind(
+function findPlantKind(
   plantKinds: PlantKind[],
   plantKindId: PlantKindId,
 ): PlantKind {
