@@ -3,12 +3,15 @@
  */
 
 import 'react-native';
-// import React from 'react';
-// import { App } from './App';
+import React from 'react';
+import {App} from './App';
 
-// import renderer from 'react-test-renderer';
+// Note: test renderer must be required after react-native.
+import renderer, {act} from 'react-test-renderer';
 
-it.skip('renders correctly', () => {
-  // TODO: get this working: https://github.com/mmxw/Forester/issues/5
-  // renderer.create(<App />);
+it('renders correctly', async () => {
+  // needed because react-navigation does async stuff
+  await act(async () => {
+    renderer.create(<App />);
+  });
 });

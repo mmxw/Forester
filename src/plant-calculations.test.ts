@@ -21,6 +21,22 @@ test('plantToUIPlant', () => {
       },
     },
     {
+      lastWatered: new Date('January 10, 2021'),
+      plantKindId: 'plantKind1' as PlantKindId,
+      waterFrequency: {
+        number: 2,
+        unit: 'months',
+      },
+      plantId: 'p2' as PlantId,
+      contact: {
+        recordId: 'r3',
+        emails: [],
+        name: 'person 3',
+        phones: [],
+        postalAddresses: [],
+      },
+    },
+    {
       lastWatered: new Date('January 13, 2021'),
       plantKindId: 'plantKind2' as PlantKindId,
       waterFrequency: {

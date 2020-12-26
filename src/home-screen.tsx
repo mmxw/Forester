@@ -29,6 +29,10 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   );
 }
 
+export const exportedForTesting = {
+  Plants,
+};
+
 function Plants({plants}: {plants: UIPlant[]}) {
   return (
     <FlatList

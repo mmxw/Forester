@@ -1,0 +1,187 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`can add a plant: UI plants after one added 1`] = `
+Array [
+  Object {
+    "appearance": Object {
+      "emoji": "🌵",
+      "kind": "emoji",
+    },
+    "lastWatered": "2020-12-27T17:01:19.102Z",
+    "name": "p1",
+    "nextWatering": "2020-12-27T17:01:19.102Z",
+    "state": "happy",
+    "waterFrequency": Object {
+      "number": 1,
+      "unit": "days",
+    },
+  },
+]
+`;
+
+exports[`can add a plant: initial plant kinds 1`] = `
+Array [
+  Object {
+    "appearances": Object {
+      "departed": Object {
+        "emoji": "🌵",
+        "kind": "emoji",
+      },
+      "droopy": Object {
+        "emoji": "🌵",
+        "kind": "emoji",
+      },
+      "happy": Object {
+        "emoji": "🌵",
+        "kind": "emoji",
+      },
+    },
+    "id": "1",
+    "name": "Cactus",
+  },
+  Object {
+    "appearances": Object {
+      "departed": Object {
+        "emoji": "🌳",
+        "kind": "emoji",
+      },
+      "droopy": Object {
+        "emoji": "🌳",
+        "kind": "emoji",
+      },
+      "happy": Object {
+        "emoji": "🌳",
+        "kind": "emoji",
+      },
+    },
+    "id": "2",
+    "name": "Circle Tree",
+  },
+  Object {
+    "appearances": Object {
+      "departed": Object {
+        "emoji": "🌲",
+        "kind": "emoji",
+      },
+      "droopy": Object {
+        "emoji": "🌲",
+        "kind": "emoji",
+      },
+      "happy": Object {
+        "emoji": "🌲",
+        "kind": "emoji",
+      },
+    },
+    "id": "3",
+    "name": "Triangle Tree",
+  },
+  Object {
+    "appearances": Object {
+      "departed": Object {
+        "emoji": "🍀",
+        "kind": "emoji",
+      },
+      "droopy": Object {
+        "emoji": "🍀",
+        "kind": "emoji",
+      },
+      "happy": Object {
+        "emoji": "🍀",
+        "kind": "emoji",
+      },
+    },
+    "id": "4",
+    "name": "Clover",
+  },
+  Object {
+    "appearances": Object {
+      "departed": Object {
+        "emoji": "🌴",
+        "kind": "emoji",
+      },
+      "droopy": Object {
+        "emoji": "🌴",
+        "kind": "emoji",
+      },
+      "happy": Object {
+        "emoji": "🌴",
+        "kind": "emoji",
+      },
+    },
+    "id": "5",
+    "name": "Palm Tree",
+  },
+  Object {
+    "appearances": Object {
+      "departed": Object {
+        "emoji": "🌱",
+        "kind": "emoji",
+      },
+      "droopy": Object {
+        "emoji": "🌱",
+        "kind": "emoji",
+      },
+      "happy": Object {
+        "emoji": "🌱",
+        "kind": "emoji",
+      },
+    },
+    "id": "6",
+    "name": "Tiny Plant",
+  },
+  Object {
+    "appearances": Object {
+      "departed": Object {
+        "emoji": "🌻",
+        "kind": "emoji",
+      },
+      "droopy": Object {
+        "emoji": "🌻",
+        "kind": "emoji",
+      },
+      "happy": Object {
+        "emoji": "🌻",
+        "kind": "emoji",
+      },
+    },
+    "id": "7",
+    "name": "Sunflower",
+  },
+  Object {
+    "appearances": Object {
+      "departed": Object {
+        "emoji": "🌸 ",
+        "kind": "emoji",
+      },
+      "droopy": Object {
+        "emoji": "🌸 ",
+        "kind": "emoji",
+      },
+      "happy": Object {
+        "emoji": "🌸 ",
+        "kind": "emoji",
+      },
+    },
+    "id": "8",
+    "name": "Pink Blossum",
+  },
+  Object {
+    "appearances": Object {
+      "departed": Object {
+        "emoji": "🌼 ",
+        "kind": "emoji",
+      },
+      "droopy": Object {
+        "emoji": "🌼 ",
+        "kind": "emoji",
+      },
+      "happy": Object {
+        "emoji": "🌼 ",
+        "kind": "emoji",
+      },
+    },
+    "id": "9",
+    "name": "Blossom",
+  },
+]
+`;

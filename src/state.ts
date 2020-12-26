@@ -9,11 +9,19 @@ import type {
   UIPlant,
   WaterFrequency,
 } from './types';
-// needed for uuid
-import 'react-native-get-random-values';
-import {v4} from 'uuid';
 import {Contact} from 'react-native-select-contact';
 import {plantToUIPlant} from './plant-calculations';
+
+let i = 0;
+/* istanbul ignore next */
+const uuid =
+  process.env.NODE_ENV === 'test'
+    ? () => '' + ++i
+    : (() => {
+        // needed for uuid. Blows up when run in tests
+        require('react-native-get-random-values');
+        return require('uuid').v4;
+      })();
 
 const plantsState = atom({
   key: 'plantsState',
@@ -93,6 +101,7 @@ const plantKindsState = atom({
       },
     ];
 
+    /* istanbul ignore next */
     if (new Set(plantKinds.map((k) => k.id)).size !== plantKinds.length) {
       throw Error('plant kind ids are not unique');
     }
@@ -134,7 +143,8 @@ export function usePlantKinds(): PlantKind[] {
 export function useUIPlants(): UIPlant[] {
   const plants = useRecoilValue(plantsState);
   const plantKinds = useRecoilValue(plantKindsState);
-  const now = new Date();
+  // using Date.now for easier mocking in tests
+  const now = new Date(Date.now());
 
   return plants.map((plant) => plantToUIPlant(plant, plantKinds, now));
 }
@@ -149,10 +159,11 @@ function makePlant({
   contact: Contact;
 }): Plant {
   return {
-    plantId: v4() as PlantId,
+    plantId: uuid() as PlantId,
     contact,
     plantKindId,
-    lastWatered: new Date(),
+    // using Date.now for easier mocking
+    lastWatered: new Date(Date.now()),
     waterFrequency,
   };
 }

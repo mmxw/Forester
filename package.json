@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint src --ext .ts,.tsx && prettier --check 'src/**/*.ts?(x)'",
     "fmt": "prettier --write 'src/**/*.ts?(x)' && eslint --fix src --ext .ts,.tsx"
   },
@@ -33,6 +33,7 @@
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^1.1.0",
+    "@testing-library/react-native": "^7.1.0",
     "@types/jest": "^25.2.3",
     "@types/react-native": "^0.63.2",
     "@types/react-test-renderer": "^16.9.2",
@@ -42,12 +43,31 @@
     "babel-jest": "^25.1.0",
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
+    "jest-transform-stub": "^2.0.0",
     "metro-react-native-babel-preset": "^0.59.0",
+    "react-dom": "^17.0.1",
     "react-test-renderer": "16.13.1",
     "typescript": "^3.8.3"
   },
   "jest": {
     "preset": "react-native",
+    "setupFiles": [
+      "./jest/setup.js"
+    ],
+    "coverageThreshold": {
+      "./src": {
+        "branches": 50,
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      },
+      "./src/*.ts": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -55,6 +75,9 @@
       "jsx",
       "json",
       "node"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-navigation|react-native-iphone-x-helper|react-native-vector-icons|@react-native-community/picker)/"
     ]
   }
 }

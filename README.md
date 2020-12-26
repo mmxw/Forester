@@ -21,10 +21,16 @@ or
 yarn test
 ```
 
+Watch mode:
+
+```sh
+yarn test --watch
+```
+
 To update snapshots:
 
 ```sh
-npx jest --update-snapshot
+yarn jest --update-snapshot
 ```
 
 ## Lint and Format

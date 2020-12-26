@@ -60,6 +60,7 @@ function waterFrequencyToMilliseconds({number, unit}: WaterFrequency): number {
     case 'weeks':
       return number * ONE_WEEK;
   }
+  /* istanbul ignore next */
   // eslint-disable-next-line
   const _exhaustivenessCheck: never = unit;
 }
@@ -69,6 +70,7 @@ function findPlantKind(
   plantKindId: PlantKindId,
 ): PlantKind {
   const kind = plantKinds.find((k) => k.id === plantKindId);
+  /* istanbul ignore next */
   if (!kind) {
     // todo: better error handling for assertions https://github.com/mmxw/Forester/issues/10
     throw Error(`invalid data! could not find plant kind id ${plantKindId}`);
