@@ -1,6 +1,15 @@
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {Contact} from 'react-native-select-contact';
 
+export type UIPlant = Readonly<{
+  name: string,
+  appearance: PlantAppearance,
+  lastWatered: Date;
+  waterFrequency: WaterFrequency,
+  nextWatering: Date;
+  state: PlantState,
+}>;
+
 export type Plant = Readonly<{
   plantId: PlantId;
   contact: Contact,
@@ -12,7 +21,7 @@ export type Plant = Readonly<{
 export type PlantId = string & {readonly plantIdBrand: unique symbol};
 export type PlantKindId = string & {readonly plantKindIdBrand: unique symbol};
 
-export type PlantState = 'ok' | 'droopy' | 'departed';
+export type PlantState = 'happy' | 'droopy' | 'departed';
 
 export type PlantAppearance = Readonly<{
   kind: 'emoji';

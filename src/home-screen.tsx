@@ -1,14 +1,14 @@
 import React from 'react';
 import {Text, Button, View} from 'react-native';
-import type {ScreenProp} from './types';
+import type {ScreenProp, UIPlant} from './types';
 import {selectContact} from 'react-native-select-contact';
-import { usePlants } from './state';
+import {useUIPlants} from './state';
+import {FlatList} from 'react-native-gesture-handler';
 
 export function HomeScreen({navigation}: ScreenProp<'Home'>) {
-  const plants = usePlants();
+  const plants = useUIPlants();
 
   async function pickContact() {
-    console.log('picking');
     const contact = await selectContact();
     if (contact) {
       navigation.navigate('PlantChoice', {
@@ -21,10 +21,25 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   }
   return (
     <View>
-      <Text>{JSON.stringify(plants)}</Text>
-      <Button
-        onPress={pickContact}
-        title="pick"/>
+      <Plants plants={plants} />
+      <Button onPress={pickContact} title="pick" />
     </View>
+  );
+}
+
+function Plants({plants}: {plants: UIPlant[]}) {
+  return (
+    <FlatList
+      data={plants}
+      renderItem={({item: plant}) => (
+        <View>
+          <Text>
+            {plant.appearance.emoji} {plant.name} ({plant.state})
+          </Text>
+          <Text>last watered: {plant.lastWatered.toISOString()} </Text>
+          <Text>next watering: {plant.nextWatering.toISOString()} </Text>
+        </View>
+      )}
+    />
   );
 }
