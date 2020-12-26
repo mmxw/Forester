@@ -2,14 +2,25 @@ import React from 'react';
 import { useState} from 'react';
 import {Button, FlatList, Text, TouchableHighlight, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import type { ScreenProp, PlantKind, PlantId, PlantState, PlantAppearance } from "./types";
+import type { ScreenProp, PlantKind, PlantState, PlantAppearance, PlantKindId, WaterFrequency } from "./types";
+import { useAddPlant } from './state';
 
 export function PlantChoiceScreen({navigation, route}: ScreenProp<"PlantChoice">) {
   const {contact} = route.params
-  const [plantId, setPlantId] = useState<string | undefined>(undefined);
+  const [plantKindId, setPlantKindId] = useState<PlantKindId | undefined>(undefined);
+  const addPlant = useAddPlant();
 
-  if (plantId) {
-    return <WateringPicker contactName={contact.name} onDone={() => navigation.navigate('Home')} />;
+  function handlePickWaterFrequency(waterFrequency: WaterFrequency): void {
+    if (!plantKindId) {
+      throw Error('expected plantKindId to be defined');
+    }
+    addPlant({contact, plantKindId, waterFrequency})
+    navigation.navigate("Home")
+  }
+
+
+  if (plantKindId) {
+    return <WateringPicker contactName={contact.name} onPick={handlePickWaterFrequency} />;
   }
 
   const plantKinds = getPlantKinds();
@@ -24,7 +35,7 @@ export function PlantChoiceScreen({navigation, route}: ScreenProp<"PlantChoice">
           <PlantKindButton
             key={item.id}
             plantKind={item}
-            onPress={() => setPlantId(item.id)}
+            onPress={() => setPlantKindId(item.id)}
           />
         )}
       />
@@ -33,16 +44,16 @@ export function PlantChoiceScreen({navigation, route}: ScreenProp<"PlantChoice">
 }
 
 const NUMS = [1, 2, 3, 4, 5, 6];
-const UNITS = ['DAYS', 'WEEKS', 'MONTHS'].map((n) => '' + n);
+const UNITS: readonly WaterFrequency["unit"][] = ['days', 'weeks', 'months'] as const;
 
-function WateringPicker({contactName, onDone}: {contactName: string, onDone: () => void}) {
-  const [num, setNum] = useState(NUMS[0]);
+function WateringPicker({contactName, onPick}: {contactName: string, onPick: (waterFrequency: WaterFrequency) => void}) {
+  const [number, setNum] = useState(NUMS[0]);
   const [unit, setUnit] = useState(UNITS[1]);
   return (
     <View>
       <Text>water {contactName} every </Text>
       <Picker
-        selectedValue={'' + num}
+        selectedValue={'' + number}
         onValueChange={(val, _index) => setNum(parseInt(val.toString(), 10))}>
         {NUMS.map((n) => '' + n).map((opt) => (
           <Picker.Item key={opt} label={opt} value={opt} />
@@ -50,12 +61,15 @@ function WateringPicker({contactName, onDone}: {contactName: string, onDone: () 
       </Picker>
       <Picker
         selectedValue={unit}
-        onValueChange={(val, _index) => setUnit(val.toString())}>
+        onValueChange={(val, _index) => setUnit(val.toString() as WaterFrequency["unit"])}>
         {UNITS.map((opt) => (
           <Picker.Item key={opt} label={opt} value={opt} />
         ))}
       </Picker>
-      <Button title="done" onPress={onDone} />
+      <Button title="done" onPress={() => onPick({
+        number,
+        unit
+      })} />
     </View>
   );
 }
@@ -79,7 +93,7 @@ function PlantKindButton({
 
 
 function getPlantKinds(): PlantKind[] {
-  const id = (s: string) => s as PlantId;
+  const id = (s: string) => s as PlantKindId;
 
   const plantKinds: PlantKind[] = [
     {

@@ -1,9 +1,12 @@
 import React from 'react';
-import {Button, View} from 'react-native';
+import {Text, Button, View} from 'react-native';
 import type {ScreenProp} from './types';
 import {selectContact} from 'react-native-select-contact';
+import { usePlants } from './state';
 
 export function HomeScreen({navigation}: ScreenProp<'Home'>) {
+  const plants = usePlants();
+
   async function pickContact() {
     console.log('picking');
     const contact = await selectContact();
@@ -18,6 +21,7 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   }
   return (
     <View>
+      <Text>{JSON.stringify(plants)}</Text>
       <Button
         onPress={pickContact}
         title="pick"/>
