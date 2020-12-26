@@ -2,12 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import {Button, FlatList, Text, TouchableHighlight, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import type {
-  ScreenProp,
-  PlantKind,
-  PlantKindId,
-  WaterFrequency,
-} from './types';
+import type {ScreenProp, PlantKind, PlantKindId, WaterFrequency} from './types';
 import {useAddPlant, usePlantKinds} from './state';
 
 export function PlantChoiceScreen({
@@ -38,7 +33,6 @@ export function PlantChoiceScreen({
     );
   }
 
-
   return (
     <View>
       <Text>Pick an appearance for {contact.name}</Text>
@@ -58,11 +52,7 @@ export function PlantChoiceScreen({
 }
 
 const NUMS = [1, 2, 3, 4, 5, 6];
-const UNITS: WaterFrequency['unit'][] = [
-  'days',
-  'weeks',
-  'months',
-];
+const UNITS: WaterFrequency['unit'][] = ['days', 'weeks', 'months'];
 
 function WateringPicker({
   contactName,
@@ -106,7 +96,7 @@ function WateringPicker({
 }
 
 function PlantKindButton({
-  plantKind: {id, appearances, name},
+  plantKind: {appearances, name},
   onPress,
 }: {
   plantKind: PlantKind;

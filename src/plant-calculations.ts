@@ -7,7 +7,7 @@ import {
   WaterFrequency,
 } from './types';
 
-const ONE_DAY = 60 * 60 * 24;
+const ONE_DAY = 1000 * 60 * 60 * 24;
 // TODO: better date math!
 const ONE_MONTH = ONE_DAY * 30;
 const ONE_WEEK = ONE_DAY * 7;
@@ -60,6 +60,7 @@ function waterFrequencyToMilliseconds({number, unit}: WaterFrequency): number {
     case 'weeks':
       return number * ONE_WEEK;
   }
+  // eslint-disable-next-line
   const _exhaustivenessCheck: never = unit;
 }
 
@@ -67,7 +68,7 @@ function lookupPlantKind(
   plantKinds: PlantKind[],
   plantKindId: PlantKindId,
 ): PlantKind {
-  const kind = plantKinds.find((kind) => kind.id === plantKindId);
+  const kind = plantKinds.find((k) => k.id === plantKindId);
   if (!kind) {
     // todo: better error handling
     throw Error(`invalid data! could not find plant kind id ${plantKindId}`);

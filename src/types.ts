@@ -2,17 +2,17 @@ import type {StackScreenProps} from '@react-navigation/stack';
 import type {Contact} from 'react-native-select-contact';
 
 export type UIPlant = Readonly<{
-  name: string,
-  appearance: PlantAppearance,
+  name: string;
+  appearance: PlantAppearance;
   lastWatered: Date;
-  waterFrequency: WaterFrequency,
+  waterFrequency: WaterFrequency;
   nextWatering: Date;
-  state: PlantState,
+  state: PlantState;
 }>;
 
 export type Plant = Readonly<{
   plantId: PlantId;
-  contact: Contact,
+  contact: Contact;
   lastWatered: Date;
   waterFrequency: WaterFrequency;
   plantKindId: PlantKindId;
@@ -29,15 +29,15 @@ export type PlantAppearance = Readonly<{
 }>;
 
 export type WaterFrequency = Readonly<{
-    unit: "days" | "weeks" | "months";
-    number: number;
-}>
+  unit: 'days' | 'weeks' | 'months';
+  number: number;
+}>;
 
 export type PlantKind = Readonly<{
   readonly id: PlantKindId;
   readonly name: string;
   readonly appearances: Record<PlantState, PlantAppearance>;
-}>
+}>;
 
 type RootStackParamList = Readonly<{
   Home: undefined;

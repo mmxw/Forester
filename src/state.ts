@@ -17,7 +17,7 @@ import {plantToUIPlant} from './plant-calculations';
 
 const plantsState = atom({
   key: 'plantsState',
-  default: new Array<Plant>(),
+  default: [] as Plant[],
 });
 
 const plantKindsState = atom({

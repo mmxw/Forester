@@ -21,6 +21,12 @@ or
 yarn test
 ```
 
+To update snapshots:
+
+```sh
+npx jest --update-snapshot
+```
+
 ## Lint and Format
 
 ```sh
