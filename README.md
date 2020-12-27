@@ -21,6 +21,18 @@ or
 yarn test
 ```
 
+Watch mode:
+
+```sh
+yarn test --watch
+```
+
+To update snapshots:
+
+```sh
+yarn test --update-snapshot
+```
+
 ## Lint and Format
 
 ```sh
