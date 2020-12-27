@@ -43,7 +43,6 @@
     "babel-jest": "^25.1.0",
     "eslint": "^6.5.1",
     "jest": "^25.1.0",
-    "jest-transform-stub": "^2.0.0",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-dom": "^17.0.1",
     "react-test-renderer": "16.13.1",
@@ -68,14 +67,6 @@
         "statements": 100
       }
     },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-navigation|react-native-iphone-x-helper|react-native-vector-icons|@react-native-community/picker)/"
     ]

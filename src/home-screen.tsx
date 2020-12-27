@@ -22,16 +22,12 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
     }
   }
   return (
-    <View>
+    <View accessibilityHint="Home Screen">
       <Plants plants={plants} />
       <Button onPress={pickContact} title="pick" />
     </View>
   );
 }
-
-export const exportedForTesting = {
-  Plants,
-};
 
 function Plants({plants}: {plants: UIPlant[]}) {
   return (

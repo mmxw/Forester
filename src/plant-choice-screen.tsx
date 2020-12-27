@@ -38,7 +38,7 @@ export function PlantChoiceScreen({
 
   return (
     <View>
-      <Text>Pick an appearance for {contact.name}</Text>
+      <Text>Pick a species for {contact.name}</Text>
       <FlatList
         data={speciesArr}
         keyExtractor={({id}) => id}
