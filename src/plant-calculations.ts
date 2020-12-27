@@ -7,8 +7,8 @@ import {
   WaterFrequency,
 } from './types';
 
+// TODO: better date math and display https://github.com/mmxw/Forester/issues/12
 const ONE_DAY = 1000 * 60 * 60 * 24;
-// TODO: better date math!
 const ONE_MONTH = ONE_DAY * 30;
 const ONE_WEEK = ONE_DAY * 7;
 
@@ -70,7 +70,7 @@ function findPlantKind(
 ): PlantKind {
   const kind = plantKinds.find((k) => k.id === plantKindId);
   if (!kind) {
-    // todo: better error handling
+    // todo: better error handling for assertions https://github.com/mmxw/Forester/issues/10
     throw Error(`invalid data! could not find plant kind id ${plantKindId}`);
   }
   return kind;

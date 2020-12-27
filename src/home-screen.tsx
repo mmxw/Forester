@@ -15,8 +15,10 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
         contact,
       });
     } else {
-      // probably a permissions issue
-      // todo: error message or something
+      // probably a permissions issue–should show something to the user
+      // and then retry
+      // https://github.com/mmxw/Forester/issues/9
+      throw Error('error getting permissions');
     }
   }
   return (

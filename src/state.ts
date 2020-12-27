@@ -104,6 +104,7 @@ export function useAddPlant() {
   const [plants, setPlants] = useRecoilState(plantsState);
 
   // TODO: prevent more than one plant for the same contact?
+  // https://github.com/mmxw/Forester/issues/11
 
   function addPlant({
     plantKindId,
