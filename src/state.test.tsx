@@ -57,7 +57,7 @@ test('can add a plant', async () => {
     .mockImplementation(() => new Date('2020-12-27T17:01:19.102Z').valueOf());
 
   const rendered = render(<StateTesterContainer />);
-  const jsonNode = await rendered.findByTestId('1');
+  let jsonNode = await rendered.findByTestId('1');
 
   function getData(): {uiPlants: UIPlant[]; plantKinds: PlantKind[]} {
     const str = jsonNode.children.toString();
@@ -70,5 +70,6 @@ test('can add a plant', async () => {
   fireEvent(jsonNode, 'onPress');
 
   await waitFor(async () => rendered.findByTestId('2'));
+  jsonNode = await rendered.findByTestId('2');
   expect(getData().uiPlants).toMatchSnapshot('UI plants after one added');
 });
