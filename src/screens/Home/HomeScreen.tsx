@@ -1,8 +1,8 @@
 import React from 'react';
 import {Text, Button, View} from 'react-native';
-import type {ScreenProp, UIPlant} from './types';
+import type {ScreenProp, UIPlant} from '../../utils/types';
 import {selectContact} from 'react-native-select-contact';
-import {useUIPlants} from './state';
+import {useUIPlants} from '../../utils/state';
 import {FlatList} from 'react-native-gesture-handler';
 
 export function HomeScreen({navigation}: ScreenProp<'Home'>) {

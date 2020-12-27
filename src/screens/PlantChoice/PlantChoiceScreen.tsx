@@ -7,8 +7,13 @@ import React from 'react';
 import {useState} from 'react';
 import {Button, FlatList, Text, TouchableHighlight, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import type {ScreenProp, Species, SpeciesId, WaterFrequency} from './types';
-import {useAddPlant, useSpeciesArr} from './state';
+import type {
+  ScreenProp,
+  Species,
+  SpeciesId,
+  WaterFrequency,
+} from '../../utils/types';
+import {useAddPlant, useSpeciesArr} from '../../utils/state';
 
 export function PlantChoiceScreen({
   navigation,
