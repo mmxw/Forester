@@ -30,7 +30,7 @@ yarn test --watch
 To update snapshots:
 
 ```sh
-yarn jest --update-snapshot
+yarn test --update-snapshot
 ```
 
 ## Lint and Format
