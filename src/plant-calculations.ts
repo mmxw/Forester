@@ -1,3 +1,11 @@
+/**
+ * This file has utilities for converting from our internal data format
+ * to a format that is closer to what the UI needs.
+ *
+ * For example, the code in this file calcuates what plant icon to show
+ *  based on watering frequency, plant kind id (cactus vs. houseplant etc.),
+ * last watering, etc.
+ */
 import {
   Plant,
   PlantKind,
