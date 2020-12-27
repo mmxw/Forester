@@ -1,30 +1,33 @@
+/**
+ * This screen requires a contact,
+ * and enables the user to select plant attributes
+ * (such as species and watering frequency)
+ */
 import React from 'react';
 import {useState} from 'react';
 import {Button, FlatList, Text, TouchableHighlight, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import type {ScreenProp, PlantKind, PlantKindId, WaterFrequency} from './types';
-import {useAddPlant, usePlantKinds} from './state';
+import type {ScreenProp, Species, SpeciesId, WaterFrequency} from './types';
+import {useAddPlant, useSpeciesArr} from './state';
 
 export function PlantChoiceScreen({
   navigation,
   route,
 }: ScreenProp<'PlantChoice'>) {
   const {contact} = route.params;
-  const plantKinds = usePlantKinds();
-  const [plantKindId, setPlantKindId] = useState<PlantKindId | undefined>(
-    undefined,
-  );
+  const speciesArr = useSpeciesArr();
+  const [speciesId, setSpeciesId] = useState<SpeciesId | undefined>(undefined);
   const addPlant = useAddPlant();
 
   function handlePickWaterFrequency(waterFrequency: WaterFrequency): void {
-    if (!plantKindId) {
-      throw Error('expected plantKindId to be defined');
+    if (!speciesId) {
+      throw Error('expected speciesId to be defined');
     }
-    addPlant({contact, plantKindId, waterFrequency});
+    addPlant({contact, speciesId: speciesId, waterFrequency});
     navigation.navigate('Home');
   }
 
-  if (plantKindId) {
+  if (speciesId) {
     return (
       <WateringPicker
         contactName={contact.name}
@@ -37,13 +40,13 @@ export function PlantChoiceScreen({
     <View>
       <Text>Pick an appearance for {contact.name}</Text>
       <FlatList
-        data={plantKinds}
+        data={speciesArr}
         keyExtractor={({id}) => id}
         renderItem={({item}) => (
-          <PlantKindButton
+          <SpeciesButton
             key={item.id}
-            plantKind={item}
-            onPress={() => setPlantKindId(item.id)}
+            species={item}
+            onPress={() => setSpeciesId(item.id)}
           />
         )}
       />
@@ -95,11 +98,11 @@ function WateringPicker({
   );
 }
 
-function PlantKindButton({
-  plantKind: {appearances, name},
+function SpeciesButton({
+  species: {appearances, name},
   onPress,
 }: {
-  plantKind: PlantKind;
+  species: Species;
   onPress: () => void;
 }) {
   return (

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Text} from 'react-native';
 import {RecoilRoot} from 'recoil';
-import {useAddPlant, usePlantKinds, useUIPlants} from './state';
-import {PlantKind, PlantKindId, UIPlant} from './types';
+import {useAddPlant, useSpeciesArr, useUIPlants} from './state';
+import {Species, SpeciesId, UIPlant} from './types';
 import {fireEvent, render, waitFor} from '@testing-library/react-native';
 
 /*
@@ -12,14 +12,14 @@ function StateTester(): JSX.Element {
   /* testID increments each time we `onPress` */
   const [testIDNum, setTestIdNum] = useState(1);
   const uiPlants = useUIPlants();
-  const plantKinds = usePlantKinds();
+  const speciesArr = useSpeciesArr();
   const addPlant = useAddPlant();
   function onPress() {
     setTestIdNum(testIDNum + 1);
     addPlant(plantData);
   }
   const plantData = {
-    plantKindId: '1' as PlantKindId,
+    speciesId: '1' as SpeciesId,
     contact: {
       emails: [],
       name: 'p1',
@@ -35,7 +35,7 @@ function StateTester(): JSX.Element {
 
   const data = {
     uiPlants,
-    plantKinds,
+    speciesArr,
   };
 
   return (
@@ -59,13 +59,13 @@ test('can add a plant', async () => {
   const rendered = render(<StateTesterContainer />);
   let jsonNode = await rendered.findByTestId('1');
 
-  function getData(): {uiPlants: UIPlant[]; plantKinds: PlantKind[]} {
+  function getData(): {uiPlants: UIPlant[]; speciesArr: Species[]} {
     const str = jsonNode.children.toString();
     return JSON.parse(str);
   }
 
   expect(getData().uiPlants).toEqual([]);
-  expect(getData().plantKinds).toMatchSnapshot('initial plant kinds');
+  expect(getData().speciesArr).toMatchSnapshot('initial plant species array');
 
   fireEvent(jsonNode, 'onPress');
 

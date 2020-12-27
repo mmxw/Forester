@@ -3,13 +3,12 @@
  * to a format that is closer to what the UI needs.
  *
  * For example, the code in this file calcuates what plant icon to show
- *  based on watering frequency, plant kind id (cactus vs. houseplant etc.),
- * last watering, etc.
+ * based on watering frequency, species, last watering, etc.
  */
 import {
   Plant,
-  PlantKind,
-  PlantKindId,
+  Species,
+  SpeciesId,
   PlantState,
   UIPlant,
   WaterFrequency,
@@ -21,17 +20,17 @@ const ONE_MONTH = ONE_DAY * 30;
 const ONE_WEEK = ONE_DAY * 7;
 
 export function plantToUIPlant(
-  {contact, lastWatered, waterFrequency, plantKindId}: Plant,
-  plantKinds: PlantKind[],
+  {contact, lastWatered, waterFrequency, speciesId}: Plant,
+  speciesArr: Species[],
   now: Date,
 ): UIPlant {
-  const plantKind = findPlantKind(plantKinds, plantKindId);
+  const species = findSpecies(speciesArr, speciesId);
   const [state, nextWatering] = calcPlantStateAndNextWatering(
     now,
     lastWatered,
     waterFrequency,
   );
-  const appearance = plantKind.appearances[state];
+  const appearance = species.appearances[state];
 
   return {
     name: contact.name,
@@ -73,15 +72,12 @@ function waterFrequencyToMilliseconds({number, unit}: WaterFrequency): number {
   const _exhaustivenessCheck: never = unit;
 }
 
-function findPlantKind(
-  plantKinds: PlantKind[],
-  plantKindId: PlantKindId,
-): PlantKind {
-  const kind = plantKinds.find((k) => k.id === plantKindId);
+function findSpecies(speciesArr: Species[], speciesId: SpeciesId): Species {
+  const species = speciesArr.find((k) => k.id === speciesId);
   /* istanbul ignore next */
-  if (!kind) {
+  if (!species) {
     // todo: better error handling for assertions https://github.com/mmxw/Forester/issues/10
-    throw Error(`invalid data! could not find plant kind id ${plantKindId}`);
+    throw Error(`invalid data! could not find plant species id ${speciesId}`);
   }
-  return kind;
+  return species;
 }

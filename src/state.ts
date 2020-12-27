@@ -3,8 +3,8 @@ import type {
   Plant,
   PlantAppearance,
   PlantId,
-  PlantKind,
-  PlantKindId,
+  Species,
+  SpeciesId,
   PlantState,
   UIPlant,
   WaterFrequency,
@@ -28,10 +28,10 @@ const plantsState = atom({
   default: [] as Plant[],
 });
 
-const plantKindsState = atom({
-  key: 'plantKindsState',
+const speciesArrState = atom({
+  key: 'speciesArrState',
   default: (() => {
-    const id = (s: string) => s as PlantKindId;
+    const id = (s: string) => s as SpeciesId;
     function emojiToAppearances(
       emoji: string,
     ): Record<PlantState, PlantAppearance> {
@@ -46,7 +46,7 @@ const plantKindsState = atom({
       };
     }
 
-    const plantKinds: PlantKind[] = [
+    const speciesArr: Species[] = [
       {
         id: id('1'),
         name: 'Cactus',
@@ -102,10 +102,10 @@ const plantKindsState = atom({
     ];
 
     /* istanbul ignore next */
-    if (new Set(plantKinds.map((k) => k.id)).size !== plantKinds.length) {
-      throw Error('plant kind ids are not unique');
+    if (new Set(speciesArr.map((s) => s.id)).size !== speciesArr.length) {
+      throw Error('plant species ids are not unique');
     }
-    return plantKinds;
+    return speciesArr;
   })(),
 });
 
@@ -116,17 +116,17 @@ export function useAddPlant() {
   // https://github.com/mmxw/Forester/issues/11
 
   function addPlant({
-    plantKindId,
+    speciesId,
     waterFrequency,
     contact,
   }: {
-    plantKindId: PlantKindId;
+    speciesId: SpeciesId;
     waterFrequency: WaterFrequency;
     contact: Contact;
   }) {
     const plant = makePlant({
       contact,
-      plantKindId,
+      speciesId,
       waterFrequency,
     });
     setPlants([...plants, plant]);
@@ -135,33 +135,33 @@ export function useAddPlant() {
   return addPlant;
 }
 
-export function usePlantKinds(): PlantKind[] {
-  const plantKinds = useRecoilValue(plantKindsState);
-  return plantKinds.slice();
+export function useSpeciesArr(): Species[] {
+  const speciesArr = useRecoilValue(speciesArrState);
+  return speciesArr.slice();
 }
 
 export function useUIPlants(): UIPlant[] {
   const plants = useRecoilValue(plantsState);
-  const plantKinds = useRecoilValue(plantKindsState);
+  const speciesArr = useRecoilValue(speciesArrState);
   // using Date.now for easier mocking in tests
   const now = new Date(Date.now());
 
-  return plants.map((plant) => plantToUIPlant(plant, plantKinds, now));
+  return plants.map((plant) => plantToUIPlant(plant, speciesArr, now));
 }
 
 function makePlant({
-  plantKindId,
+  speciesId,
   waterFrequency,
   contact,
 }: {
-  plantKindId: PlantKindId;
+  speciesId: SpeciesId;
   waterFrequency: WaterFrequency;
   contact: Contact;
 }): Plant {
   return {
     plantId: uuid() as PlantId,
     contact,
-    plantKindId,
+    speciesId: speciesId,
     // using Date.now for easier mocking
     lastWatered: new Date(Date.now()),
     waterFrequency,

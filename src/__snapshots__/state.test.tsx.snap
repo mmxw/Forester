@@ -19,7 +19,7 @@ Array [
 ]
 `;
 
-exports[`can add a plant: initial plant kinds 1`] = `
+exports[`can add a plant: initial plant species array 1`] = `
 Array [
   Object {
     "appearances": Object {

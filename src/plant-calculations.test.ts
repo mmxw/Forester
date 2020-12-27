@@ -1,12 +1,12 @@
 import {plantToUIPlant} from './plant-calculations';
-import type {Plant, PlantId, PlantKind, PlantKindId} from './types';
+import type {Plant, PlantId, Species, SpeciesId} from './types';
 
 test('plantToUIPlant', () => {
   const now = new Date('January 15, 2021');
   const plants: Plant[] = [
     {
       lastWatered: new Date('January 10, 2021'),
-      plantKindId: 'plantKind1' as PlantKindId,
+      speciesId: 'species1' as SpeciesId,
       waterFrequency: {
         number: 1,
         unit: 'weeks',
@@ -22,7 +22,7 @@ test('plantToUIPlant', () => {
     },
     {
       lastWatered: new Date('January 10, 2021'),
-      plantKindId: 'plantKind1' as PlantKindId,
+      speciesId: 'species1' as SpeciesId,
       waterFrequency: {
         number: 2,
         unit: 'months',
@@ -38,7 +38,7 @@ test('plantToUIPlant', () => {
     },
     {
       lastWatered: new Date('January 13, 2021'),
-      plantKindId: 'plantKind2' as PlantKindId,
+      speciesId: 'species2' as SpeciesId,
       waterFrequency: {
         number: 1,
         unit: 'days',
@@ -54,7 +54,7 @@ test('plantToUIPlant', () => {
     },
     {
       lastWatered: new Date('January 12, 2021'),
-      plantKindId: 'plantKind2' as PlantKindId,
+      speciesId: 'species2' as SpeciesId,
       waterFrequency: {
         number: 1,
         unit: 'days',
@@ -70,10 +70,10 @@ test('plantToUIPlant', () => {
     },
   ];
 
-  const plantKinds: PlantKind[] = [
+  const speciesArr: Species[] = [
     {
-      id: 'plantKind1' as PlantKindId,
-      name: 'plant kind 1',
+      id: 'species1' as SpeciesId,
+      name: 'plant species 1',
       appearances: {
         happy: {
           emoji: '🤣',
@@ -90,8 +90,8 @@ test('plantToUIPlant', () => {
       },
     },
     {
-      id: 'plantKind2' as PlantKindId,
-      name: 'face kind 2',
+      id: 'species2' as SpeciesId,
+      name: 'species 2',
       appearances: {
         happy: {
           emoji: '👍',
@@ -110,6 +110,6 @@ test('plantToUIPlant', () => {
   ];
 
   expect(
-    plants.map((plant) => plantToUIPlant(plant, plantKinds, now)),
+    plants.map((plant) => plantToUIPlant(plant, speciesArr, now)),
   ).toMatchSnapshot();
 });
