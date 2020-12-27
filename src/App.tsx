@@ -1,8 +1,8 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {HomeScreen} from './home-screen';
-import {PlantChoiceScreen} from './plant-choice-screen';
+import {HomeScreen} from './screens/Home/HomeScreen';
+import {PlantChoiceScreen} from './screens/PlantChoice/PlantChoiceScreen';
 import {RecoilRoot} from 'recoil';
 
 const Stack = createStackNavigator();
