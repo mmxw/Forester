@@ -60,7 +60,7 @@
         "lines": 50,
         "statements": 50
       },
-      "./src/*.ts": {
+      "./src/**/*.ts": {
         "branches": 100,
         "functions": 100,
         "lines": 100,
