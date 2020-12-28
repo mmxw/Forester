@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plantToUIPlant 1`] = `
+Array [
+  Object {
+    "appearance": Object {
+      "emoji": "🤣",
+      "kind": "emoji",
+    },
+    "lastWatered": 2021-01-10T00:00:00.000Z,
+    "name": "person 1",
+    "nextWatering": 2021-01-20T00:00:00.000Z,
+    "state": "happy",
+    "waterFrequency": Object {
+      "number": 1,
+      "unit": "weeks",
+    },
+  },
+  Object {
+    "appearance": Object {
+      "emoji": "🤣",
+      "kind": "emoji",
+    },
+    "lastWatered": 2021-01-10T00:00:00.000Z,
+    "name": "person 3",
+    "nextWatering": 2021-01-20T00:00:00.000Z,
+    "state": "happy",
+    "waterFrequency": Object {
+      "number": 2,
+      "unit": "months",
+    },
+  },
+  Object {
+    "appearance": Object {
+      "emoji": "🤦‍♀️",
+      "kind": "emoji",
+    },
+    "lastWatered": 2021-01-13T00:00:00.000Z,
+    "name": "person 2",
+    "nextWatering": 2021-01-15T00:00:00.000Z,
+    "state": "droopy",
+    "waterFrequency": Object {
+      "number": 1,
+      "unit": "days",
+    },
+  },
+  Object {
+    "appearance": Object {
+      "emoji": "👎",
+      "kind": "emoji",
+    },
+    "lastWatered": 2021-01-12T00:00:00.000Z,
+    "name": "person 2",
+    "nextWatering": 2021-01-15T00:00:00.000Z,
+    "state": "departed",
+    "waterFrequency": Object {
+      "number": 1,
+      "unit": "days",
+    },
+  },
+]
+`;
