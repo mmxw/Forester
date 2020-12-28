@@ -20,7 +20,7 @@ const ONE_MONTH = ONE_DAY * 30;
 const ONE_WEEK = ONE_DAY * 7;
 
 export function plantToUIPlant(
-  {contact, lastWatered, waterFrequency, speciesId}: Plant,
+  {plantId, contact, lastWatered, waterFrequency, speciesId}: Plant,
   speciesArr: Species[],
   now: Date,
 ): UIPlant {
@@ -33,6 +33,7 @@ export function plantToUIPlant(
   const appearance = species.appearances[state];
 
   return {
+    plantId,
     name: contact.name,
     appearance,
     lastWatered,
@@ -67,9 +68,6 @@ function waterFrequencyToMilliseconds({number, unit}: WaterFrequency): number {
     case 'weeks':
       return number * ONE_WEEK;
   }
-  /* istanbul ignore next */
-  // eslint-disable-next-line
-  const _exhaustivenessCheck: never = unit;
 }
 
 function findSpecies(speciesArr: Species[], speciesId: SpeciesId): Species {
