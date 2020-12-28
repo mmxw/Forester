@@ -15,10 +15,7 @@ import type {
 } from '../../utils/types';
 import {useAddPlant, useSpeciesArr} from '../../utils/state';
 
-export function PlantChoiceScreen({
-  navigation,
-  route,
-}: ScreenProp<'PlantChoice'>) {
+export function EditPlantScreen({navigation, route}: ScreenProp<'EditPlant'>) {
   const {contact} = route.params;
   const speciesArr = useSpeciesArr();
   const [speciesId, setSpeciesId] = useState<SpeciesId | undefined>(undefined);

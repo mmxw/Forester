@@ -16,7 +16,7 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   async function pickContact() {
     const contact = await selectContactLib.selectContact();
     if (contact) {
-      navigation.navigate('PlantChoice', {
+      navigation.navigate('EditPlant', {
         contact,
       });
     } else {

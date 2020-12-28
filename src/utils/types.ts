@@ -62,7 +62,7 @@ export type WaterFrequency = Readonly<{
 
 type RootStackParamList = Readonly<{
   Home: undefined;
-  PlantChoice: {
+  EditPlant: {
     contact: Contact;
   };
 }>;
