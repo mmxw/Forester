@@ -19,6 +19,7 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
       navigation.navigate('PlantChoice', {
         contact,
       });
+      setHasProblemGettingPermissions(false);
     } else {
       setHasProblemGettingPermissions(true);
     }
