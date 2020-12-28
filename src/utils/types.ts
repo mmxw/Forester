@@ -38,6 +38,7 @@ export type Species = Readonly<{
  * easier to use in the UI.
  */
 export type UIPlant = Readonly<{
+  plantId: PlantId;
   name: string;
   appearance: PlantAppearance;
   lastWatered: Date;

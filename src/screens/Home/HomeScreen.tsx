@@ -1,30 +1,44 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, Button, View} from 'react-native';
+// using namespace import so we can mock
+import * as selectContactLib from 'react-native-select-contact';
 import type {ScreenProp, UIPlant} from '../../utils/types';
-import {selectContact} from 'react-native-select-contact';
 import {useUIPlants} from '../../utils/state';
 import {FlatList} from 'react-native-gesture-handler';
 
 export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   const plants = useUIPlants();
+  const [
+    hasProblemGettingPermissions,
+    setHasProblemGettingPermissions,
+  ] = useState(false);
 
   async function pickContact() {
-    const contact = await selectContact();
+    const contact = await selectContactLib.selectContact();
     if (contact) {
       navigation.navigate('PlantChoice', {
         contact,
       });
     } else {
-      // probably a permissions issue–should show something to the user
-      // and then retry
-      // https://github.com/mmxw/Forester/issues/9
-      throw Error('error getting permissions');
+      setHasProblemGettingPermissions(true);
     }
   }
+
+  const MaybeErrorMessage = hasProblemGettingPermissions ? (
+    <Text accessible style={{color: 'red'}}>
+      There was an issue accessing contacts.
+    </Text>
+  ) : null;
+
   return (
-    <View accessibilityHint="Home Screen">
+    <View>
+      {MaybeErrorMessage}
       <Plants plants={plants} />
-      <Button onPress={pickContact} title="pick" />
+      <Button
+        title="Add Plant"
+        accessibilityLabel={'Add Plant'}
+        onPress={pickContact}
+      />
     </View>
   );
 }
@@ -32,9 +46,11 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
 function Plants({plants}: {plants: UIPlant[]}) {
   return (
     <FlatList
+      accessibilityHint="Plants List"
       data={plants}
+      keyExtractor={({plantId}) => plantId}
       renderItem={({item: plant}) => (
-        <View>
+        <View accessible accessibilityHint={`${plant.name} the plant`}>
           <Text>
             {plant.appearance.emoji} {plant.name} ({plant.state})
           </Text>
