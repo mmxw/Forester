@@ -1,7 +1,7 @@
 import React from 'react';
 import type {ReactTestInstance} from 'react-test-renderer';
 import {fireEvent, render, within} from '@testing-library/react-native';
-import {App} from '../src/App'
+import {App} from '../src/App';
 import * as selectContactLib from 'react-native-select-contact';
 import {Text} from 'react-native';
 import {mockNowDate, PlantFixture} from '../test-util/test-util';
@@ -65,7 +65,7 @@ test('add plants', async () => {
       'Professor Professorson the plant',
     );
     expect(plantTestInstanceToString(plants[0])).toMatchInlineSnapshot(
-      `"🌵 Professor Professorson (happy)last watered: 2020-01-01T10:49:41.836Z next watering: 2020-01-01T10:49:41.836Z "`,
+      `"🌵 Professor Professorson (happy)last watered: today next watering: 22 Jan."`,
     );
   }
 
@@ -84,15 +84,15 @@ test('add plants', async () => {
       Array [
         Array [
           "Professor Professorson the plant",
-          "🌵 Professor Professorson (droopy)last watered: 2020-01-01T10:49:41.836Z next watering: 2020-02-02T10:49:41.836Z ",
+          "🌵 Professor Professorson (droopy)last watered: 1 Jan. next watering: today",
         ],
         Array [
           "Person McPherson the plant",
-          "🌻 Person McPherson (departed)last watered: 2020-01-01T10:49:41.836Z next watering: 2020-02-02T10:49:41.836Z ",
+          "🌻 Person McPherson (departed)last watered: 1 Jan. next watering: today",
         ],
         Array [
           "Ms. Pacman the plant",
-          "🌲 Ms. Pacman (happy)last watered: 2020-02-02T10:49:41.836Z next watering: 2020-02-02T10:49:41.836Z ",
+          "🌲 Ms. Pacman (happy)last watered: today next watering: 3 Mar.",
         ],
       ]
     `);

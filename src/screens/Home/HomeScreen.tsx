@@ -5,6 +5,7 @@ import * as selectContactLib from 'react-native-select-contact';
 import type {ScreenProp, UIPlant} from '../../utils/types';
 import {useUIPlants} from '../../utils/state';
 import {FlatList} from 'react-native-gesture-handler';
+import {formatDay} from '../../utils/date';
 
 export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   const plants = useUIPlants();
@@ -45,6 +46,9 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
 }
 
 function Plants({plants}: {plants: UIPlant[]}) {
+  // Harmless side effect we don't need to live-update the days
+  // and we can mock Date.now in tests
+  const now = new Date(Date.now());
   return (
     <FlatList
       accessibilityHint="Plants List"
@@ -55,8 +59,8 @@ function Plants({plants}: {plants: UIPlant[]}) {
           <Text>
             {plant.appearance.emoji} {plant.name} ({plant.state})
           </Text>
-          <Text>last watered: {plant.lastWatered.toISOString()} </Text>
-          <Text>next watering: {plant.nextWatering.toISOString()} </Text>
+          <Text>last watered: {formatDay(now, plant.lastWatered)} </Text>
+          <Text>next watering: {formatDay(now, plant.nextWatering)}</Text>
         </View>
       )}
     />

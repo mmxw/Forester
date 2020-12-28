@@ -5,6 +5,7 @@
  * For example, the code in this file calcuates what plant icon to show
  * based on watering frequency, species, last watering, etc.
  */
+import {ONE_DAY, ONE_MONTH, ONE_WEEK} from './date';
 import {
   Plant,
   Species,
@@ -13,11 +14,6 @@ import {
   UIPlant,
   WaterFrequency,
 } from './types';
-
-// TODO: better date math and display https://github.com/mmxw/Forester/issues/12
-const ONE_DAY = 1000 * 60 * 60 * 24;
-const ONE_MONTH = ONE_DAY * 30;
-const ONE_WEEK = ONE_DAY * 7;
 
 export function plantToUIPlant(
   {plantId, contact, lastWatered, waterFrequency, speciesId}: Plant,
@@ -56,7 +52,7 @@ function calcPlantStateAndNextWatering(
   if (diff > frequencyMillis) {
     return ['droopy', now];
   }
-  return ['happy', new Date(now.valueOf() + diff)];
+  return ['happy', new Date(lastWatered.valueOf() + frequencyMillis)];
 }
 
 function waterFrequencyToMilliseconds({number, unit}: WaterFrequency): number {
