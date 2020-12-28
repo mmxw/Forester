@@ -39,3 +39,13 @@ yarn test --update-snapshot
 yarn lint # lint and check formatting
 yarn fmt  # auto-fix lint errors and formatting
 ```
+
+## TypeScript
+
+We recommend using an IDE with TypeScript support, such as VSCode.
+
+To type-check the code from the command line:
+
+```sh
+yarn tsc
+```
