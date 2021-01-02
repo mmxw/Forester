@@ -1198,12 +1198,6 @@
   dependencies:
     pretty-format "^26.0.1"
 
-"@types/@react-native-async-storage/async-storage":
-  version "1.13.0"
-  resolved "https://codeload.github.com/react-native-async-storage/async-storage/tar.gz/bfd76c7508bcc35d88f6b6c8d2fd525466f77ba0"
-  dependencies:
-    deep-assign "^3.0.0"
-
 "@types/babel__core@^7.1.7":
   version "7.1.12"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.12.tgz#4d8e9e51eb265552a7e4f1ff2219ab6133bdfb2d"
