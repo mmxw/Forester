@@ -115,6 +115,7 @@ async function storePlantsToAsyncStorage(plants: Plant[]): Promise<void> {
   try {
     await AsyncStorage.setItem('plantsState', JSON.stringify(plants));
   } catch (error) {
+    /* istanbul ignore next skip error handling*/
     console.error('cannot store the data in local storage', error.stack);
   }
 }
@@ -174,7 +175,7 @@ export function useUIPlants(): UIPlant[] | 'loading' {
     getPlantsFromAsyncStorage().then((storedPlants) => {
         setPlants(storedPlants);
     })
-    .catch(error => {
+    .catch(/* istanbul ignore next skip error handling */ error => {
       console.error(`error getting plants from storage ${error.stack}`)
       setPlants([]);
     })
