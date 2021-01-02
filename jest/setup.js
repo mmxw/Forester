@@ -1,5 +1,8 @@
 // copied from https://github.com/react-navigation/react-navigation.github.io/blob/d47317f19d7ac01164c69f3374f5dacafae4fba3/versioned_docs/version-5.x/testing.md
 import 'react-native-gesture-handler/jestSetup';
+import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
+
+jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock');

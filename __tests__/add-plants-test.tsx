@@ -6,6 +6,7 @@ import * as selectContactLib from 'react-native-select-contact';
 import {Text} from 'react-native';
 import {mockNowDate, PlantFixture} from '../test-util/test-util';
 import {addPlant, getPlantsFromHomeScreen} from '../test-util/test-util';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PLANT_FIXTURE_1: PlantFixture = {
   contact: {
