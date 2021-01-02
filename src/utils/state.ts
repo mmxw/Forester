@@ -155,13 +155,13 @@ export function useSpeciesArr(): Species[] {
 type StoragePlant = Omit<Plant, 'lastWatered'> & {lastWatered: string};
 
 async function getPlantsFromAsyncStorage(): Promise<Plant[]> {
-    const jsonString = await AsyncStorage.getItem('plantsState');
-    const storagePlants: StoragePlant[] =
-      jsonString != null ? JSON.parse(jsonString) : [];
-    return storagePlants.map((storagePlant) => ({
-      ...storagePlant,
-      lastWatered: new Date(storagePlant.lastWatered),
-    }));
+  const jsonString = await AsyncStorage.getItem('plantsState');
+  const storagePlants: StoragePlant[] =
+    jsonString != null ? JSON.parse(jsonString) : [];
+  return storagePlants.map((storagePlant) => ({
+    ...storagePlant,
+    lastWatered: new Date(storagePlant.lastWatered),
+  }));
 }
 
 export function useUIPlants(): UIPlant[] | 'loading' {
@@ -172,14 +172,17 @@ export function useUIPlants(): UIPlant[] | 'loading' {
   const now = new Date(Date.now());
 
   useEffect(() => {
-    getPlantsFromAsyncStorage().then((storedPlants) => {
+    getPlantsFromAsyncStorage()
+      .then((storedPlants) => {
         setPlants(storedPlants);
-    })
-    .catch(/* istanbul ignore next skip error handling */ error => {
-      console.error(`error getting plants from storage ${error.stack}`)
-      setPlants([]);
-    })
-    .finally(() => setIsLoading(false))
+      })
+      .catch(
+        /* istanbul ignore next skip error handling */ (error) => {
+          console.error(`error getting plants from storage ${error.stack}`);
+          setPlants([]);
+        },
+      )
+      .finally(() => setIsLoading(false));
   }, [setPlants, setIsLoading]);
 
   if (isLoading) {
