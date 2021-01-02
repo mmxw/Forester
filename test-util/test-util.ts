@@ -23,8 +23,8 @@ export function plantTestInstanceToString(component: ReactTestInstance): string 
 export async function getPlantsFromHomeScreen(
   r: RenderAPI,
 ): Promise<ReactTestInstance[]> {
-  await waitFor(async () => await r.findByA11yHint('Plants List'));
-  return r.findAllByA11yHint(/.+the plant/);
+  await waitFor(async () => await r.findByTestId('Plants List'));
+  return r.findAllByTestId(/.+the plant/);
 }
 
 export function mockNowDate(now: Date) {
@@ -38,14 +38,13 @@ export async function addPlant(
   jest
     .spyOn(selectContactLib, 'selectContact')
     .mockImplementation(async () => contact);
-
   const addPlantButton = await r.findByA11yLabel('Add Plant');
   fireEvent(addPlantButton, 'onPress');
   const speciesButtons = await waitFor(
-    async () => await r.findAllByA11yHint(/Press to select species/),
+    async () => await r.findAllByA11yLabel(/Press to select species/),
   );
   const cactusButton = speciesButtons.find((b) =>
-    b.props.accessibilityHint.includes(speciesName),
+    b.props.accessibilityLabel.includes(speciesName),
   );
   expect(cactusButton).toBeDefined();
   if (!cactusButton) {
@@ -54,7 +53,7 @@ export async function addPlant(
 
   fireEvent(cactusButton, 'onPress');
   const wateringPicker = await waitFor(
-    async () => await r.findByA11yHint('Select how often to water'),
+    async () => await r.findByA11yLabel('Select how often to water'),
   );
   // Note: We are bypassing the `Picker` components
   // https://github.com/callstack/react-native-testing-library/issues/500

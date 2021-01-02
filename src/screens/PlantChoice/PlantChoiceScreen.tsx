@@ -74,7 +74,7 @@ function WateringPicker({
   const [number, setNum] = useState(NUMS[0]);
   const [unit, setUnit] = useState(UNITS[1]);
   return (
-    <View accessible accessibilityHint="Select how often to water">
+    <View accessible accessibilityLabel="Select how often to water">
       <Text>water {contactName} every </Text>
       {(() => {
         // awkwardness because Picker isn't mocked
@@ -125,7 +125,7 @@ function SpeciesButton({
 }) {
   return (
     <TouchableHighlight
-      accessibilityHint={`Press to select species ${name}`}
+      accessibilityLabel={`Press to select species ${name}`}
       onPress={() => onPress()}>
       <Text
         accessibilityLabel={name}

@@ -46,11 +46,11 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
 function Plants({plants}: {plants: UIPlant[]}) {
   return (
     <FlatList
-      accessibilityHint="Plants List"
+      testID="Plants List"
       data={plants}
       keyExtractor={({plantId}) => plantId}
       renderItem={({item: plant}) => (
-        <View accessible accessibilityHint={`${plant.name} the plant`}>
+        <View accessible testID={`${plant.name} the plant`}>
           <Text>
             {plant.appearance.emoji} {plant.name} ({plant.state})
           </Text>

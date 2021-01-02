@@ -53,15 +53,14 @@ const PLANT_FIXTURE_3: PlantFixture = {
 test('add plants', async () => {
   const r = render(<App />);
   // ensures exactly 1 plant list
-  await r.findByA11yHint('Plants List');
-
+  await r.findByTestId('Plants List');
   mockNowDate(new Date('2020-01-01T10:49:41.836Z'));
 
   await addPlant(r, PLANT_FIXTURE_1);
   {
     const plants = await getPlantsFromHomeScreen(r);
     expect(plants).toHaveLength(1);
-    expect(plants[0].props.accessibilityHint).toBe(
+    expect(plants[0].props.testID).toBe(
       'Professor Professorson the plant',
     );
     expect(plantTestInstanceToString(plants[0])).toMatchInlineSnapshot(
@@ -77,7 +76,7 @@ test('add plants', async () => {
     expect(plants).toHaveLength(3);
     expect(
       plants.map((p) => [
-        p.props.accessibilityHint,
+        p.props.testID,
         plantTestInstanceToString(p),
       ]),
     ).toMatchInlineSnapshot(`
@@ -106,7 +105,7 @@ test('add plants when cannot access contacts', async () => {
 
   const r = render(<App />);
   // ensures exactly 1 plant list
-  await r.findByA11yHint('Plants List');
+  await r.findByTestId('Plants List');
 
   const addPlantButton = await r.findByA11yLabel('Add Plant');
   fireEvent(addPlantButton, 'onPress');
