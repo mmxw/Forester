@@ -11,6 +11,8 @@ import type {
 } from './types';
 import {Contact} from 'react-native-select-contact';
 import {plantToUIPlant} from './plant-calculations';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useState, useEffect} from 'react';
 
 let i = 0;
 /* istanbul ignore next */
@@ -109,13 +111,22 @@ const speciesArrState = atom({
   })(),
 });
 
+async function storePlantsToAsyncStorage(plants: Plant[]): Promise<void> {
+  try {
+    await AsyncStorage.setItem('plantsState', JSON.stringify(plants));
+  } catch (error) {
+    /* istanbul ignore next skip error handling*/
+    console.error('cannot store the data in local storage', error.stack);
+  }
+}
+
 export function useAddPlant() {
   const [plants, setPlants] = useRecoilState(plantsState);
 
   // TODO: prevent more than one plant for the same contact?
   // https://github.com/mmxw/Forester/issues/11
 
-  function addPlant({
+  async function addPlant({
     speciesId,
     waterFrequency,
     contact,
@@ -130,6 +141,7 @@ export function useAddPlant() {
       waterFrequency,
     });
     setPlants([...plants, plant]);
+    storePlantsToAsyncStorage(plants);
   }
 
   return addPlant;
@@ -140,11 +152,42 @@ export function useSpeciesArr(): Species[] {
   return speciesArr.slice();
 }
 
-export function useUIPlants(): UIPlant[] {
-  const plants = useRecoilValue(plantsState);
+type StoragePlant = Omit<Plant, 'lastWatered'> & {lastWatered: string};
+
+async function getPlantsFromAsyncStorage(): Promise<Plant[]> {
+  const jsonString = await AsyncStorage.getItem('plantsState');
+  const storagePlants: StoragePlant[] =
+    jsonString != null ? JSON.parse(jsonString) : [];
+  return storagePlants.map((storagePlant) => ({
+    ...storagePlant,
+    lastWatered: new Date(storagePlant.lastWatered),
+  }));
+}
+
+export function useUIPlants(): UIPlant[] | 'loading' {
+  const [isLoading, setIsLoading] = useState(true);
+  const [plants, setPlants] = useRecoilState(plantsState);
   const speciesArr = useRecoilValue(speciesArrState);
   // using Date.now for easier mocking in tests
   const now = new Date(Date.now());
+
+  useEffect(() => {
+    getPlantsFromAsyncStorage()
+      .then((storedPlants) => {
+        setPlants(storedPlants);
+      })
+      .catch(
+        /* istanbul ignore next skip error handling */ (error) => {
+          console.error(`error getting plants from storage ${error.stack}`);
+          setPlants([]);
+        },
+      )
+      .finally(() => setIsLoading(false));
+  }, [setPlants, setIsLoading]);
+
+  if (isLoading) {
+    return 'loading';
+  }
 
   return plants.map((plant) => plantToUIPlant(plant, speciesArr, now));
 }

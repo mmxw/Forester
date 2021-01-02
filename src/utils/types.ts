@@ -9,13 +9,13 @@ import type {Contact} from 'react-native-select-contact';
  * and the app will indicate if they need to "water" the plant
  * (stay in touch with the friend or family member or colleague)
  */
-export type Plant = Readonly<{
-  plantId: PlantId;
-  contact: Contact;
-  lastWatered: Date;
-  waterFrequency: WaterFrequency;
-  speciesId: SpeciesId;
-}>;
+export interface Plant {
+  readonly plantId: PlantId;
+  readonly contact: Contact;
+  readonly lastWatered: Date;
+  readonly waterFrequency: WaterFrequency;
+  readonly speciesId: SpeciesId;
+}
 
 /**
  * Plants get droopy and then depart if they aren't
@@ -27,38 +27,38 @@ export type PlantState = 'happy' | 'droopy' | 'departed';
  * A plant has a species, such as "hosue plant" or "cactus",
  * which determines how it displays.
  */
-export type Species = Readonly<{
+export interface Species {
   readonly id: SpeciesId;
   readonly name: string;
   readonly appearances: Record<PlantState, PlantAppearance>;
-}>;
+}
 
 /**
  * Represents in a Plant in a way that is
  * easier to use in the UI.
  */
-export type UIPlant = Readonly<{
-  plantId: PlantId;
-  name: string;
-  appearance: PlantAppearance;
-  lastWatered: Date;
-  waterFrequency: WaterFrequency;
-  nextWatering: Date;
-  state: PlantState;
-}>;
+export interface UIPlant {
+  readonly plantId: PlantId;
+  readonly name: string;
+  readonly appearance: PlantAppearance;
+  readonly lastWatered: Date;
+  readonly waterFrequency: WaterFrequency;
+  readonly nextWatering: Date;
+  readonly state: PlantState;
+}
 
 export type PlantId = string & {readonly plantIdBrand: unique symbol};
 export type SpeciesId = string & {readonly speciesId: unique symbol};
 
-export type PlantAppearance = Readonly<{
-  kind: 'emoji';
-  emoji: string;
-}>;
+export interface PlantAppearance {
+  readonly kind: 'emoji';
+  readonly emoji: string;
+}
 
-export type WaterFrequency = Readonly<{
-  unit: 'days' | 'weeks' | 'months';
-  number: number;
-}>;
+export interface WaterFrequency {
+  readonly unit: 'days' | 'weeks' | 'months';
+  readonly number: number;
+}
 
 type RootStackParamList = Readonly<{
   Home: undefined;

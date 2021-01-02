@@ -32,13 +32,19 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
 
   return (
     <View>
-      {MaybeErrorMessage}
-      <Plants plants={plants} />
-      <Button
-        title="Add Plant"
-        accessibilityLabel={'Add Plant'}
-        onPress={pickContact}
-      />
+      {plants === 'loading' ? (
+        <Text> loading... </Text>
+      ) : (
+        <>
+          {MaybeErrorMessage}
+          <Plants plants={plants} />
+          <Button
+            title="Add Plant"
+            accessibilityLabel={'Add Plant'}
+            onPress={pickContact}
+          />
+        </>
+      )}
     </View>
   );
 }
