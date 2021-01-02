@@ -4,17 +4,20 @@
 import type {StackScreenProps} from '@react-navigation/stack';
 import type {Contact} from 'react-native-select-contact';
 
+export interface PlantOptions {
+  readonly speciesId: SpeciesId;
+  readonly waterFrequency: WaterFrequency;
+}
+
 /**
  * Users can create a plant for one of their contacts,
  * and the app will indicate if they need to "water" the plant
  * (stay in touch with the friend or family member or colleague)
  */
-export interface Plant {
+export interface Plant extends PlantOptions {
   readonly plantId: PlantId;
   readonly contact: Contact;
   readonly lastWatered: Date;
-  readonly waterFrequency: WaterFrequency;
-  readonly speciesId: SpeciesId;
 }
 
 /**
@@ -39,7 +42,7 @@ export interface Species {
  */
 export interface UIPlant {
   readonly plantId: PlantId;
-  readonly name: string;
+  readonly contact: Contact;
   readonly appearance: PlantAppearance;
   readonly lastWatered: Date;
   readonly waterFrequency: WaterFrequency;
@@ -62,8 +65,14 @@ export interface WaterFrequency {
 
 type RootStackParamList = Readonly<{
   Home: undefined;
-  PlantChoice: {
-    contact: Contact;
+  PlantChoice:
+    | {
+        action: 'addPlant';
+        contact: Contact;
+      }
+    | {action: 'updatePlant'; contact: Contact; plantId: PlantId};
+  Plant: {
+    plantId: PlantId;
   };
 }>;
 

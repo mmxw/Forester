@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {Text, Button, View} from 'react-native';
 // using namespace import so we can mock
 import * as selectContactLib from 'react-native-select-contact';
-import type {ScreenProp, UIPlant} from '../../utils/types';
+import {FlatList, TouchableHighlight} from 'react-native-gesture-handler';
+import type {ScreenProp, UIPlant, PlantId} from '../../utils/types';
 import {useUIPlants} from '../../utils/state';
-import {FlatList} from 'react-native-gesture-handler';
-import {formatDay} from '../../utils/date';
+import {PlantView} from '../../components/PlantView';
 
 export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   const plants = useUIPlants();
@@ -14,16 +14,21 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
     setHasProblemGettingPermissions,
   ] = useState(false);
 
-  async function pickContact() {
+  async function startAddPlant() {
     const contact = await selectContactLib.selectContact();
     if (contact) {
       navigation.navigate('PlantChoice', {
         contact,
+        action: 'addPlant',
       });
       setHasProblemGettingPermissions(false);
     } else {
       setHasProblemGettingPermissions(true);
     }
+  }
+
+  function onPressPlant(plantId: PlantId): void {
+    navigation.navigate('Plant', {plantId});
   }
 
   const MaybeErrorMessage = hasProblemGettingPermissions ? (
@@ -39,11 +44,11 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
       ) : (
         <>
           {MaybeErrorMessage}
-          <Plants plants={plants} />
+          <Plants plants={plants} onPressPlant={onPressPlant} />
           <Button
             title="Add Plant"
             accessibilityLabel={'Add Plant'}
-            onPress={pickContact}
+            onPress={startAddPlant}
           />
         </>
       )}
@@ -51,23 +56,26 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   );
 }
 
-function Plants({plants}: {plants: UIPlant[]}) {
-  // Harmless side effect we don't need to live-update the days
-  // and we can mock Date.now in tests
-  const now = new Date(Date.now());
+function Plants({
+  plants,
+  onPressPlant,
+}: {
+  plants: UIPlant[];
+  onPressPlant: (plantId: PlantId) => void;
+}) {
   return (
     <FlatList
       testID="Plants List"
       data={plants}
       keyExtractor={({plantId}) => plantId}
       renderItem={({item: plant}) => (
-        <View accessible testID={`${plant.name} the plant`}>
-          <Text>
-            {plant.appearance.emoji} {plant.name} ({plant.state})
-          </Text>
-          <Text>last watered: {formatDay(now, plant.lastWatered)} </Text>
-          <Text>next watering: {formatDay(now, plant.nextWatering)}</Text>
-        </View>
+        <TouchableHighlight
+          accessible
+          accessibilityLabel={`Go to plant screen for plant ${plant.contact.name}`}
+          testID={`${plant.contact.name} the plant`}
+          onPress={() => onPressPlant(plant.plantId)}>
+          <PlantView plant={plant} />
+        </TouchableHighlight>
       )}
     />
   );
