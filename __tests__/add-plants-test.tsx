@@ -63,7 +63,7 @@ test('add plants', async () => {
     expect(plants).toHaveLength(1);
     expect(plants[0].props.testID).toBe('Professor Professorson the plant');
     expect(plantTestInstanceToString(plants[0])).toMatchInlineSnapshot(
-      `"🌵 Professor Professorson (happy)last watered: 2020-01-01T10:49:41.836Z next watering: 2020-01-01T10:49:41.836Z "`,
+      `"🌵 Professor Professorson (happy)last watered: today next watering: 22 Jan."`,
     );
   }
 
@@ -78,15 +78,15 @@ test('add plants', async () => {
       Array [
         Array [
           "Professor Professorson the plant",
-          "🌵 Professor Professorson (droopy)last watered: 2020-01-01T10:49:41.836Z next watering: 2020-02-02T10:49:41.836Z ",
+          "🌵 Professor Professorson (droopy)last watered: 1 Jan. next watering: today",
         ],
         Array [
           "Person McPherson the plant",
-          "🌻 Person McPherson (departed)last watered: 2020-01-01T10:49:41.836Z next watering: 2020-02-02T10:49:41.836Z ",
+          "🌻 Person McPherson (departed)last watered: 1 Jan. next watering: today",
         ],
         Array [
           "Ms. Pacman the plant",
-          "🌲 Ms. Pacman (happy)last watered: 2020-02-02T10:49:41.836Z next watering: 2020-02-02T10:49:41.836Z ",
+          "🌲 Ms. Pacman (happy)last watered: today next watering: 3 Mar.",
         ],
       ]
     `);
