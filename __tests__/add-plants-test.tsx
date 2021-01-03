@@ -126,6 +126,22 @@ test('add plants', async () => {
             "unit": "days",
           },
         },
+        Object {
+          "contact": Object {
+            "emails": Array [],
+            "name": "Ms. Pacman",
+            "phones": Array [],
+            "postalAddresses": Array [],
+            "recordId": "record3",
+          },
+          "lastWatered": "2020-02-02T10:49:41.836Z",
+          "plantId": "3",
+          "speciesId": "3",
+          "waterFrequency": Object {
+            "number": 1,
+            "unit": "months",
+          },
+        },
       ]
     `);
   }
