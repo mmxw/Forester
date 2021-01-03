@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {Text, Button, View} from 'react-native';
+import {Text, Button, View, Platform} from 'react-native';
 // using namespace import so we can mock
 import * as selectContactLib from 'react-native-select-contact';
 import {FlatList, TouchableHighlight} from 'react-native-gesture-handler';
 import type {ScreenProp, UIPlant, PlantId} from '../../utils/types';
 import {useUIPlants} from '../../utils/state';
 import {PlantView} from '../../components/PlantView';
+
+import {PermissionsAndroid} from 'react-native';
 
 export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   const plants = useUIPlants();
@@ -15,6 +17,20 @@ export function HomeScreen({navigation}: ScreenProp<'Home'>) {
   ] = useState(false);
 
   async function startAddPlant() {
+    /* istanbul ignore next */
+    if (Platform.OS === 'android') {
+      const res = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+        {
+          title: 'Contacts',
+          message: 'This app would like to view your contacts.',
+          buttonPositive: 'DO IT',
+        },
+      );
+      if (res !== 'granted') {
+        return;
+      }
+    }
     const contact = await selectContactLib.selectContact();
     if (contact) {
       navigation.navigate('PlantChoice', {
