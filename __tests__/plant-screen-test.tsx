@@ -37,7 +37,7 @@ test('edit plants', async () => {
     /Professor Professorson the plant/,
   );
   const plantStr = plantTestInstanceToString(plantView);
-  expect(plantStr).toMatch(/🌳 Professor Professorson/)
+  expect(plantStr).toMatch(/🌳 Professor Professorson/);
   expect(JSON.parse((await AsyncStorage.getItem('plantsState'))!))
     .toMatchInlineSnapshot(`
     Array [
@@ -86,13 +86,16 @@ export async function editPlant(
   }: {speciesName: string; waterFrequency: WaterFrequency},
 ): Promise<void> {
   const plants = await getPlantsFromHomeScreen(r);
-  const plantsAsTest = plants.map(plantTestInstanceToString);
-  const index = plantsAsTest.findIndex((p) => p.includes(plantName));
-  if (index === -1) {
-    throw Error(`could not find rendered plant matching ${plantName}`);
-  }
-  if (plantsAsTest[index].includes(speciesName)) {
-    throw Error('Bad test design: speciesName would not change');
+  {
+    const plantText = plants
+      .map(plantTestInstanceToString)
+      .find((p) => p.includes(plantName));
+    if (plantText === undefined) {
+      throw Error(`could not find rendered plant matching ${plantName}`);
+    }
+    if (plantText.includes(speciesName)) {
+      throw Error('Bad test design: speciesName would not change');
+    }
   }
 
   const plantScreenButton = await r.findByA11yLabel(
