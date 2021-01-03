@@ -140,8 +140,9 @@ export function useAddPlant() {
       speciesId,
       waterFrequency,
     });
-    setPlants([...plants, plant]);
-    storePlantsToAsyncStorage(plants);
+    const newPlants = [...plants, plant];
+    setPlants(newPlants);
+    storePlantsToAsyncStorage(newPlants);
   }
 
   return addPlant;
