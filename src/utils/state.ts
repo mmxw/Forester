@@ -7,7 +7,7 @@ import type {
   SpeciesId,
   PlantState,
   UIPlant,
-  WaterFrequency,
+  PlantOptions,
 } from './types';
 import {Contact} from 'react-native-select-contact';
 import {plantToUIPlant} from './plant-calculations';
@@ -120,26 +120,27 @@ async function storePlantsToAsyncStorage(plants: Plant[]): Promise<void> {
   }
 }
 
-export function useAddPlant() {
+export function useUpdatePlant() {
   const [plants, setPlants] = useRecoilState(plantsState);
 
+  function updatePlant(plantId: PlantId, options: PlantOptions): void {
+    const newPlants = plants.map((p) =>
+      p.plantId === plantId ? {...p, ...options} : p,
+    );
+    setPlants(newPlants);
+    storePlantsToAsyncStorage(newPlants);
+  }
+
+  return updatePlant;
+}
+
+export function useAddPlant() {
+  const [plants, setPlants] = useRecoilState(plantsState);
   // TODO: prevent more than one plant for the same contact?
   // https://github.com/mmxw/Forester/issues/11
 
-  async function addPlant({
-    speciesId,
-    waterFrequency,
-    contact,
-  }: {
-    speciesId: SpeciesId;
-    waterFrequency: WaterFrequency;
-    contact: Contact;
-  }) {
-    const plant = makePlant({
-      contact,
-      speciesId,
-      waterFrequency,
-    });
+  function addPlant(contact: Contact, options: PlantOptions) {
+    const plant = makePlant(contact, options);
     const newPlants = [...plants, plant];
     setPlants(newPlants);
     storePlantsToAsyncStorage(newPlants);
@@ -193,15 +194,23 @@ export function useUIPlants(): UIPlant[] | 'loading' {
   return plants.map((plant) => plantToUIPlant(plant, speciesArr, now));
 }
 
-function makePlant({
-  speciesId,
-  waterFrequency,
-  contact,
-}: {
-  speciesId: SpeciesId;
-  waterFrequency: WaterFrequency;
-  contact: Contact;
-}): Plant {
+export function useUIPlant(plantId: PlantId): UIPlant | 'loading' {
+  const plants = useUIPlants();
+  if (plants === 'loading') {
+    return 'loading';
+  }
+  const plant = plants.find((p) => p.plantId === plantId);
+  /* istanbul ignore next */
+  if (!plant) {
+    throw Error(`Could not find plant with id ${plantId}`);
+  }
+  return plant;
+}
+
+function makePlant(
+  contact: Contact,
+  {speciesId, waterFrequency}: PlantOptions,
+): Plant {
   return {
     plantId: uuid() as PlantId,
     contact,

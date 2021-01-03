@@ -30,7 +30,7 @@ export function plantToUIPlant(
 
   return {
     plantId,
-    name: contact.name,
+    contact,
     appearance,
     lastWatered,
     nextWatering,

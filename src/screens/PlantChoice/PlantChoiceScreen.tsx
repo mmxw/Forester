@@ -13,24 +13,38 @@ import type {
   SpeciesId,
   WaterFrequency,
 } from '../../utils/types';
-import {useAddPlant, useSpeciesArr} from '../../utils/state';
+import {useAddPlant, useSpeciesArr, useUpdatePlant} from '../../utils/state';
 
 export function PlantChoiceScreen({
   navigation,
   route,
 }: ScreenProp<'PlantChoice'>) {
-  const {contact} = route.params;
-  const speciesArr = useSpeciesArr();
   const [speciesId, setSpeciesId] = useState<SpeciesId | undefined>(undefined);
+  const speciesArr = useSpeciesArr();
   const addPlant = useAddPlant();
+  const updatePlant = useUpdatePlant();
+  const {contact} = route.params;
 
   function handlePickWaterFrequency(waterFrequency: WaterFrequency): void {
     /* istanbul ignore next */
     if (!speciesId) {
       throw Error('expected speciesId to be defined');
     }
-    addPlant({contact, speciesId: speciesId, waterFrequency});
-    navigation.navigate('Home');
+    const options = {
+      waterFrequency,
+      speciesId,
+    };
+    switch (route.params.action) {
+      case 'addPlant':
+        addPlant(route.params.contact, options);
+        navigation.navigate('Home');
+        break;
+      case 'updatePlant':
+        const {plantId} = route.params;
+        updatePlant(plantId, options);
+        navigation.navigate('Plant', {plantId});
+        break;
+    }
   }
 
   if (speciesId) {

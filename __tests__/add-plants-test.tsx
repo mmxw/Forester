@@ -1,11 +1,15 @@
 import React from 'react';
-import type {ReactTestInstance} from 'react-test-renderer';
-import {fireEvent, render, within} from '@testing-library/react-native';
+import {fireEvent, render, RenderAPI} from '@testing-library/react-native';
 import {App} from '../src/App';
 import * as selectContactLib from 'react-native-select-contact';
-import {Text} from 'react-native';
-import {mockNowDate, PlantFixture} from '../test-util/test-util';
-import {addPlant, getPlantsFromHomeScreen} from '../test-util/test-util';
+import type {PlantFixture} from '../test-util/test-util';
+import {
+  mockNowDate,
+  plantTestInstanceToString,
+  setPlantOptions,
+  STARTER_PLANTS_STATE,
+} from '../test-util/test-util';
+import {getPlantsFromHomeScreen} from '../test-util/test-util';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PLANT_FIXTURE_1: PlantFixture = {
@@ -61,7 +65,9 @@ test('add plants', async () => {
   {
     const plants = await getPlantsFromHomeScreen(r);
     expect(plants).toHaveLength(1);
-    expect(plants[0].props.testID).toBe('Professor Professorson the plant');
+    expect(plants[0].props.accessibilityLabel).toBe(
+      'Professor Professorson the plant',
+    );
     expect(plantTestInstanceToString(plants[0])).toMatchInlineSnapshot(
       `"🌵 Professor Professorson (happy)last watered: today next watering: 22 Jan."`,
     );
@@ -73,8 +79,12 @@ test('add plants', async () => {
   {
     const plants = await getPlantsFromHomeScreen(r);
     expect(plants).toHaveLength(3);
-    expect(plants.map((p) => [p.props.testID, plantTestInstanceToString(p)]))
-      .toMatchInlineSnapshot(`
+    expect(
+      plants.map((p) => [
+        p.props.accessibilityLabel,
+        plantTestInstanceToString(p),
+      ]),
+    ).toMatchInlineSnapshot(`
       Array [
         Array [
           "Professor Professorson the plant",
@@ -161,59 +171,43 @@ test('add plants when cannot access contacts', async () => {
   await r.findByText(/issue accessing contacts/);
 });
 
-function plantTestInstanceToString(component: ReactTestInstance): string {
-  return within(component)
-    .UNSAFE_getAllByType(Text)
-    .flatMap((t) => t.props.children)
-    .reduce((memo, str) => memo + str);
-}
-
 test('get items from async storage', async () => {
+  mockNowDate(new Date('2020-01-01T10:49:41.836Z'));
   await AsyncStorage.setItem(
     'plantsState',
-    JSON.stringify([
-      {
-        plantId: '1',
-        contact: {
-          name: 'Professor Professorson',
-          recordId: 'record1',
-          phones: [],
-          emails: [],
-          postalAddresses: [],
-        },
-        speciesId: '1',
-        lastWatered: '2020-01-01T10:49:41.836Z',
-        waterFrequency: {number: 3, unit: 'weeks'},
-      },
-      {
-        plantId: '2',
-        contact: {
-          name: 'Person McPherson',
-          recordId: 'record2',
-          phones: [],
-          emails: [],
-          postalAddresses: [],
-        },
-        speciesId: '7',
-        lastWatered: '2020-01-01T10:49:41.836Z',
-        waterFrequency: {number: 4, unit: 'days'},
-      },
-    ]),
+    JSON.stringify(STARTER_PLANTS_STATE),
   );
 
   const r = render(<App />);
   const plants = await getPlantsFromHomeScreen(r);
-  expect(plants.map((p) => [p.props.testID, plantTestInstanceToString(p)]))
-    .toMatchInlineSnapshot(`
+  expect(
+    plants.map((p) => [
+      p.props.accessibilityLabel,
+      plantTestInstanceToString(p),
+    ]),
+  ).toMatchInlineSnapshot(`
     Array [
       Array [
         "Professor Professorson the plant",
-        "🌵 Professor Professorson (droopy)last watered: 2020-01-01T10:49:41.836Z next watering: 2020-02-02T10:49:41.836Z ",
+        "🌵 Professor Professorson (happy)last watered: today next watering: 22 Jan.",
       ],
       Array [
         "Person McPherson the plant",
-        "🌻 Person McPherson (departed)last watered: 2020-01-01T10:49:41.836Z next watering: 2020-02-02T10:49:41.836Z ",
+        "🌻 Person McPherson (happy)last watered: today next watering: Sunday",
       ],
     ]
   `);
 });
+
+async function addPlant(
+  r: RenderAPI,
+  {contact, speciesName, wateringFrequency}: PlantFixture,
+): Promise<void> {
+  jest
+    .spyOn(selectContactLib, 'selectContact')
+    .mockImplementation(async () => contact);
+  const addPlantButton = await r.findByA11yLabel('Add Plant');
+  fireEvent(addPlantButton, 'onPress');
+  await setPlantOptions(r, speciesName, wateringFrequency);
+  await r.findAllByTestId('Plants List');
+}
